@@ -3,13 +3,14 @@
 gname=$( cat /root/elli/conf/gname.conf );
 pboot=$( cat /root/elli/conf/pboot.conf );
 pluks=$( cat /root/elli/conf/pluks.conf );
+pluks_uuid=$( blkid -o value -s UUID /dev/${pluks} );
 
 pswap_size=$( cat /root/elli/conf/pswap_size.conf );
 phome_size=$( cat /root/elli/conf/phome_size.conf );
 
 mkfs.vfat -F32 /dev/${pboot}
 cryptsetup -s 256 -h sha256 -c aes-xts-plain64 luksFormat /dev/${pluks};
-cryptsetup luksOpen /dev/${pluks} ${pluks}_crypt;
+cryptsetup luksOpen /dev/${pluks} ${pluks_uuid}_crypt;
 
 pvcreate /dev/mapper/${pluks}_crypt;
 vgcreate ${gname} /dev/mapper/${pluks}_crypt;
