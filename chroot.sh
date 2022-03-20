@@ -28,8 +28,8 @@ chown root:root /etc/mkinitcpio.conf;
 chmod 644 /etc/mkinitcpio.conf;
 mkinitcpio -P;
 
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB;
 echo $grub_p1 > /etc/default/grub;
 echo "GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${pluks_uuid}:${pluks}_crypt root=/dev/${gname}/root\"" >> /etc/default/grub
 echo $grub_p2 >> /etc/default/grub;
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB;
 grub-mkconfig -o /boot/grub/grub.cfg;
