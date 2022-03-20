@@ -29,7 +29,7 @@ mkdir /mnt/boot;
 mount /dev/${gname}/home /mnt/home;
 mount /dev/${pboot} /mnt/boot;
 
-pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr ucode-intel dbus lvm2 cryptsetup networkmanager avahi power-profiles-daemon mesa vulkan-intel intel-media-driver intel-compute-runtime ocl-icd opencl-headers pepiwire pipewire-alsa pipewire-pulse pipewire-jack wayland libcups cups cups-pdf ghostscript sane sane-airscan ipp-usb nano ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore bluez bluez-utils;
+pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr ucode-intel dbus lvm2 cryptsetup networkmanager avahi power-profiles-daemon mesa vulkan-intel intel-media-driver intel-compute-runtime ocl-icd opencl-headers pepiwire pipewire-alsa pipewire-pulse pipewire-jack wayland libcups cups cups-pdf ghostscript sane sane-airscan ipp-usb nano ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore bluez bluez-utils;
 
 genfstab -U /mnt > /mnt/etc/fstab;
 
