@@ -12,8 +12,8 @@ mkfs.vfat -F32 /dev/${pboot}
 cryptsetup -s 256 -h sha256 -c aes-xts-plain64 luksFormat /dev/${pluks};
 cryptsetup luksOpen /dev/${pluks} ${pluks_uuid}_crypt;
 
-pvcreate /dev/mapper/${pluks}_crypt;
-vgcreate ${gname} /dev/mapper/${pluks}_crypt;
+pvcreate /dev/mapper/${pluks_uuid}_crypt;
+vgcreate ${gname} /dev/mapper/${pluks_uuid}_crypt;
 lvcreate -C y -L ${pswap_size} -n swap ${gname};
 lvcreate -C n -L ${proot_size} -n root ${gname};
 lvcreate -C n -l 100%FREE -n home ${gname};
@@ -29,7 +29,7 @@ mkdir /mnt/boot;
 mount /dev/${gname}/home /mnt/home;
 mount /dev/${pboot} /mnt/boot;
 
-pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr ucode-intel dbus lvm2 cryptsetup networkmanager avahi power-profiles-daemon mesa vulkan-intel intel-media-driver intel-compute-runtime ocl-icd opencl-headers pepiwire pipewire-alsa pipewire-pulse pipewire-jack wayland libcups cups cups-pdf ghostscript sane sane-airscan ipp-usb nano ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore bluez bluez-utils;
+pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr ucode-intel dbus lvm2 cryptsetup networkmanager avahi power-profiles-daemon mesa vulkan-intel intel-media-driver intel-compute-runtime ocl-icd opencl-headers pepiwire pipewire-alsa pipewire-pulse pipewire-jack wayland libcups cups cups-pdf ghostscript sane sane-airscan ipp-usb nano ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore bluez bluez-utils flac wavpack libmad opus libvorbis faac faad2 jasper libwebp libavif libheif aom libdv x265 x264 libmpeg2 libtheora libvpx gst-libav gstreamer-vaapi handbrake-cli python3 git;
 
 genfstab -U /mnt > /mnt/etc/fstab;
 
