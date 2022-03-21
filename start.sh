@@ -21,7 +21,7 @@ lvcreate -C n -l 100%FREE -n root ${gname};
 mkfs.ext4 /dev/${gname}/root;
 mkfs.ext4 /dev/${gname}/home;
 mkswap /dev/${gname}/swap;
-swapon /dev/${gname}/swap;
+#swapon /dev/${gname}/swap;
 
 mount /dev/${gname}/root /mnt;
 mkdir /mnt/home;
