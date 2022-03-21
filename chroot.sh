@@ -38,3 +38,5 @@ systemctl enable cups;
 systemctl enable bluetooth;
 
 pacman -Syu plasma plasma-wayland-session kde-gtk-config sddm sddm-kcm kdeconnect kdegraphics-thumbnailers ffmpegthumbs redshift kdenetwork-filesharing powerdevil flatpak packagekit packagekit-qt5 ark okular vlc kate konsole dolphin discover okular firefox libreoffice-fresh-pt-br;
+
+systemctl enable sddm;
