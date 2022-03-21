@@ -8,6 +8,7 @@ pluks_uuid=$( blkid -o value -s UUID /dev/${pluks} );
 
 grub_p1=$( cat /root/elli/conf/grub_p1.conf );
 grub_p2=$( cat /root/elli/conf/grub_p2.conf );
+mkinitcpio=$( cat /root/elli/conf/mkinitcpio.conf );
 
 echo "Setup root password:";
 passwd;
@@ -22,10 +23,7 @@ hwclock --systohc;
 echo "${hname}" > /etc/hostname;
 echo -e "127.0.0.1 localhost.localdomain localhost\n::1 localhost.localdomain localhost\n127.0.1.1 ${hname}.localdomain ${hname}" > /etc/hosts;
 
-rm /etc/mkinitcpio.conf;
-cp /root/elli/conf/mkinitcpio.conf /etc/mkinitcpio.conf;
-chown root:root /etc/mkinitcpio.conf;
-chmod 644 /etc/mkinitcpio.conf;
+echo "${mkinitcpio}" > /etc/mkinitcpio.conf;
 mkinitcpio -P;
 
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB;
