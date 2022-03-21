@@ -1,2 +1,2 @@
-# elli
-Simple EFI with LUKS and LVM installer script for Arch Linux.
+# ELLI (EFI with LUKS and LVM installer)
+O ELLI é um script instalador simples de Arch Linux.
