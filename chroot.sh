@@ -28,11 +28,13 @@ mkinitcpio -P;
 
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB;
 grub-mkconfig -o /boot/grub/grub.cfg;
-echo $grub_p1 > /etc/default/grub;
+echo "${grub_p1}" > /etc/default/grub;
 echo "GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${pluks_uuid}:${pluks_uuid}_crypt root=/dev/${gname}/root\"" >> /etc/default/grub
-echo $grub_p2 >> /etc/default/grub;
+echo "${grub_p2}" >> /etc/default/grub;
 grub-mkconfig -o /boot/grub/grub.cfg;
 
 systemctl enable NetworkManager;
 systemctl enable cups;
 systemctl enable bluetooth;
+
+pacman -Syu plasma plasma-wayland-session kde-gtk-config sddm sddm-kcm kdeconnect kdegraphics-thumbnailers ffmpegthumbs redshift kdenetwork-filesharing powerdevil flatpak packagekit packagekit-qt5 ark okular vlc kate konsole dolphin discover okular firefox libreoffice-fresh-pt-br;
