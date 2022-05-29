@@ -36,6 +36,7 @@ cp dracut-remove.sh /usr/local/bin/
 chmod +x /usr/local/bin/dracut-install.sh
 chmod +x /usr/local/bin/dracut-remove.sh
 
+mkdir /etc/pacman.d/hooks
 cp "90-dracut-install.hook" /etc/pacman.d/hooks/
 cp "60-dracut-remove.hook" /etc/pacman.d/hooks/
 ln -sf /dev/null /etc/pacman.d/hooks/90-mkinitcpio-install.hook
