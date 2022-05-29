@@ -1,17 +1,23 @@
 #!/bin/bash
 
-gname="archlvm" #$( cat /root/elli/conf/gname.conf )
-hname="arch" #$( cat /root/elli/conf/hname.conf )
+user="luiz"
 
-pluks="nvme0n1p1" #$( cat /root/elli/conf/pluks.conf )
+gname="archlvm"
+hname="arch"
+
+pluks="sda2"
 pluks_uuid=$( blkid -o value -s UUID /dev/${pluks} )
 
 grub_p1=$( cat /root/elli/conf/grub_p1.conf )
 grub_p2=$( cat /root/elli/conf/grub_p2.conf )
-#mkinitcpio=$( cat /root/elli/conf/mkinitcpio.conf )
 
-echo "Setup root password:"
+useradd -m -G wheel luiz
+
+echo "Set root password:"
 passwd
+
+echo "Set $user password:"
+passwd $user
 
 echo -e "pt_BR.UTF-8 UTF-8\nen_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
@@ -23,24 +29,16 @@ hwclock --systohc
 echo "$hname" > /etc/hostname
 echo -e "127.0.0.1 localhost.localdomain localhost\n::1 localhost.localdomain localhost\n127.0.1.1 $hname.localdomain $hname" > /etc/hosts
 
-#echo "${mkinitcpio}" > /etc/mkinitcpio.conf
-#mkinitcpio -P
-
 echo "luks-$pluks_uuid UUID=$pluks_uuid none discard" > /etc/crypttab
 
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
-echo "${grub_p1}" > /etc/default/grub
-echo "GRUB_CMDLINE_LINUX=\"rd.luks.uuid=luks-$pluks_uuid rhgb quiet\"" >> /etc/default/grub
-echo "${grub_p2}" >> /etc/default/grub;
-grub-mkconfig -o /boot/grub/grub.cfg;
+cp dracut-install.sh /usr/local/bin/
+/usr/local/bin/dracut-install.sh
+
+#grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+#grub-mkconfig -o /boot/grub/grub.cfg
+#echo "${grub_p1}" > /etc/default/grub
+#echo "GRUB_CMDLINE_LINUX=\"rd.luks.uuid=luks-$pluks_uuid rhgb quiet\"" >> /etc/default/grub
+#echo "${grub_p2}" >> /etc/default/grub;
+#grub-mkconfig -o /boot/grub/grub.cfg;
 
 systemctl enable NetworkManager;
-systemctl enable cups;
-systemctl enable bluetooth;
-
-kde="plasma plasma-wayland-session kde-gtk-config sddm sddm-kcm kdeconnect kdegraphics-thumbnailers ffmpegthumbs redshift kdenetwork-filesharing packagekit packagekit-qt5 spectacle print-manager gwenview ark okular kate konsole dolphin discover okular kcalc powerdevil"
-
-gnome="gnome gnome-shell gnome-extra gdm"
-
-pacman -Syu flatpak vlc firefox gnome-keyring $gnome;
