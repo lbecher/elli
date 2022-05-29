@@ -42,7 +42,7 @@ cp "60-dracut-remove.hook" /etc/pacman.d/hooks/
 ln -sf /dev/null /etc/pacman.d/hooks/90-mkinitcpio-install.hook
 ln -sf /dev/null /etc/pacman.d/hooks/60-mkinitcpio-remove.hook
 
-pacman -Sy base linux
+pacman -Sy linux
 
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
