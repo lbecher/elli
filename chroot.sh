@@ -11,14 +11,6 @@ pluks_uuid=$( blkid -o value -s UUID /dev/${pluks} )
 grub_p1=$( cat /root/elli/conf/grub_p1.conf )
 grub_p2=$( cat /root/elli/conf/grub_p2.conf )
 
-useradd -m -G wheel $user
-
-echo "Set root password:"
-passwd
-
-echo "Set $user password:"
-passwd $user
-
 echo -e "pt_BR.UTF-8 UTF-8\nen_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=pt_BR.UTF-8" > /etc/locale.conf
@@ -52,3 +44,5 @@ echo "${grub_p2}" >> /etc/default/grub;
 grub-mkconfig -o /boot/grub/grub.cfg;
 
 systemctl enable NetworkManager;
+
+pacman -Sy gdm gnome firefox vlc nautilus;
