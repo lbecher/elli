@@ -25,10 +25,10 @@ mkdir /mnt/boot
 mount /dev/$gname/home /mnt/home
 mount /dev/$pboot /mnt/boot
 
-#extra="avahi power-profiles-daemon mesa vulkan-intel intel-media-driver pipewire pipewire-alsa pipewire-pulse pipewire-jack wayland libcups cups cups-pdf dbus-python gobject-introspection-runtime python-cairo python-gobject python-pycups python-pycurl ghostscript foomatic-db-gutenprint-ppds foomatic-db-engine sane sane-airscan ipp-usb nano ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore bluez bluez-utils flac wavpack libmad opus libvorbis faac faad2 jasper libwebp libavif libheif aom libdv x265 x264 libmpeg2 libtheora libvpx gst-libav gstreamer-vaapi handbrake-cli"
+extra="intel-ucode amd-ucode power-profiles-daemon mesa vulkan-intel intel-media-driver pipewire pipewire-alsa pipewire-pulse pipewire-jack wayland avahi libcups cups cups-pdf dbus-python gobject-introspection-runtime python-cairo python-gobject python-pycups python-pycurl ghostscript foomatic-db-gutenprint-ppds foomatic-db-engine sane sane-airscan ipp-usb nano ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore bluez bluez-utils ffmpeg gst-libav gstreamer-vaapi"
 
-pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr dracut dbus lvm2 cryptsetup networkmanager python3 git nano;
+pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr dracut dbus lvm2 cryptsetup networkmanager python3 git nano $extra;
 
 genfstab -U /mnt > /mnt/etc/fstab
 
-cp -r /root/elli /mnt/root/
+cp -r ./elli /mnt/root
