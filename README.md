@@ -16,11 +16,11 @@ chmod +x start.sh
 ```
 Quarto, execute o script `start.sh` e passe os parâmetros necessários:
 ```
-./start.sh /dev/partição_de_boot /dev/partição_dos_volumes_lógicos tamanho_em_GB_da_partição_raiz
+./start.sh /dev/partição_de_boot /dev/partição_dos_volumes_lógicos tamanho_em_GB_da_partição_raiz nome_do_grupo_volumes_lógicos
 ```
 Exemplo:
 ```
-./start.sh /dev/sda1 /dev/sda2 64
+./start.sh /dev/sda1 /dev/sda2 64 archlvm
 ```
 Quinto, entre na raiz de sua instalação:
 ```
