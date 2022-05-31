@@ -16,7 +16,7 @@ chmod +x start.sh
 ```
 Quarto, execute o script `start.sh` e passe os parâmetros necessários:
 ```
-./start.sh /dev/partição_de_boot /dev/partição_dos_volumes_lógicos tamanho_em_GB_da_partição_raiz nome_do_grupo_volumes_lógicos
+./start.sh /dev/partição_de_boot /dev/partição_dos_volumes_lógicos tamanho_em_GB_da_partição_raiz nome_do_grupo_de_volumes_lógicos
 ```
 Exemplo:
 ```
