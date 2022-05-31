@@ -34,20 +34,43 @@ Exemplo:
 ```
 useradd -m -G wheel ana
 ```
-Sétimo, apague o `#` na linha `# %wheel ALL=(ALL) ALL`, após executar o comando:
+Sétimo, mude a senha de seu usuário:
+```
+passwd nome_do_seu_usuario
+```
+Exemplo:
+```
+passwd ana
+```
+Oitavo, apague o `#` na linha `# %wheel ALL=(ALL) ALL`, após executar o comando:
 ```
 EDITOR=nano visudo
 ```
-Oitavo, acesse seu usuário:
+Nono, acesse seu usuário:
 ```
 su nome_do_seu_usuario
 ```
-Nono, instale o paru:
+Décimo, instale o paru:
 ```
 cd ~/ && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si
 ```
-Décimo, instale o plymouth:
+Décimo primeiro, instale o plymouth:
 ```
 paru -S pymouth
 ```
-Décimo primeiro
+Décimo segundo, saia de seu usuário:
+```
+exit
+```
+Décimo terceiro, acesse o diretório `/root/elli` e permita a execução do script `chroot.sh`:
+```
+cd /root/elli/ && chmod +x chroot.sh
+```
+Décimo quarto, execute o script `chroot.sh` e passe os parâmetros necessários:
+```
+./chroot.sh /dev/partição_dos_volumes_lógicos
+```
+Exemplo:
+```
+./chroot.sh /dev/sda2
+```
