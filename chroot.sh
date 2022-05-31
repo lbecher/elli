@@ -1,12 +1,10 @@
 #!/bin/bash
 
-user="luiz"
+gname="$2"
+hname="$3"
 
-gname="archlvm"
-hname="arch"
-
-pluks="sda2"
-pluks_uuid=$( blkid -o value -s UUID /dev/${pluks} )
+pluks="$1"
+pluks_uuid=$( blkid -o value -s UUID ${pluks} )
 
 grub_p1=$( cat /root/elli/conf/grub_p1.conf )
 grub_p2=$( cat /root/elli/conf/grub_p2.conf )
