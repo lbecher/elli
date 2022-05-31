@@ -17,7 +17,10 @@ chmod +x start.sh
 Quarto, execute o script `start.sh` e passe os parâmetros necessários:
 ```
 ./start.sh /dev/partição_de_boot /dev/partição_dos_volumes_lógicos tamanho_em_GB_da_partição_raiz
-Ex: ./start.sh /dev/sda1 /dev/sda2 64
+```
+Exemplo:
+```
+./start.sh /dev/sda1 /dev/sda2 64
 ```
 Quinto, entre na raiz de sua instalação:
 ```
@@ -26,7 +29,10 @@ arch-chroot /mnt
 Sexto, adicione um novo usuário:
 ```
 useradd -m -G wheel nome_do_seu_usuario
-Ex: useradd -m -G wheel ana
+```
+Exemplo:
+```
+useradd -m -G wheel ana
 ```
 Sétimo, apague o `#` na linha `# %wheel ALL=(ALL) ALL`, após executar o comando:
 ```
