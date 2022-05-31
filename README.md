@@ -68,9 +68,9 @@ cd /root/elli/ && chmod +x chroot.sh
 ```
 Décimo quarto, execute o script `chroot.sh` e passe os parâmetros necessários:
 ```
-./chroot.sh /dev/partição_dos_volumes_lógicos
+./chroot.sh /dev/partição_dos_volumes_lógicos nome_do_grupo_de_volumes_lógicos nome_da_máquina
 ```
 Exemplo:
 ```
-./chroot.sh /dev/sda2
+./chroot.sh /dev/sda2 archlvm pc-da-ana
 ```
