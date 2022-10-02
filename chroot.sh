@@ -12,6 +12,7 @@ pluks_name="luks-$pluks_uuid"
 
 grub_p1=$( cat /root/elli/conf/grub_p1.conf )
 grub_p2=$( cat /root/elli/conf/grub_p2.conf )
+mkicpio=$( cat /root/elli/conf/mkinitcpio.conf )
 
 echo -e "pt_BR.UTF-8 UTF-8\nen_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
@@ -23,7 +24,11 @@ hwclock --systohc
 echo "$hname" > /etc/hostname
 echo -e "127.0.0.1 localhost.localdomain localhost\n::1 localhost.localdomain localhost\n127.0.1.1 $hname.localdomain $hname" > /etc/hosts
 
+cp conf/
 echo "$pluks_name UUID=$pluks_uuid none discard" > /etc/crypttab
+
+echo "${mkicpio}" > /etc/mkinitcpio.conf
+mkinitcpio -P
 
 #cp dracut-install.sh /usr/local/bin/
 #cp dracut-remove.sh /usr/local/bin/
