@@ -24,7 +24,6 @@ hwclock --systohc
 echo "$hname" > /etc/hostname
 echo -e "127.0.0.1 localhost.localdomain localhost\n::1 localhost.localdomain localhost\n127.0.1.1 $hname.localdomain $hname" > /etc/hosts
 
-cp conf/
 echo "$pluks_name UUID=$pluks_uuid none discard" > /etc/crypttab
 
 echo "${mkicpio}" > /etc/mkinitcpio.conf
