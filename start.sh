@@ -1,47 +1,58 @@
 #!/bin/bash
 
+gname="archlvm"
+
 pefi="/dev/nvme0n1p1"
 pboot="/dev/nvme0n1p2"
 pluks="/dev/nvme0n1p3"
 
-mkfs.ext4 $pluks
+phome_enabled=true
+phome_size="80GB"
 
+pswap_enabled=true
+pswap_size="8GB"
+
+
+mkfs.ext4 $pluks
 pluks_uuid=$( blkid -o value -s UUID $pluks )
 plvm="/dev/mapper/luks-$pluks_uuid"
 plvm_name="luks-$pluks_uuid"
-
-proot_size="24GB"
-
-gname="archlvm"
 
 cryptsetup -s 256 -h sha256 -c aes-xts-plain64 luksFormat $pluks
 cryptsetup luksOpen $pluks $plvm_name
 
 pvcreate $plvm
 vgcreate $gname $plvm
-lvcreate -C n -L $proot_size -n root $gname
-lvcreate -C n -l 100%FREE -n home $gname
 
 mkfs.vfat -F32 $pefi
 mkfs.ext4 $pboot
-mkfs.ext4 /dev/$gname/root
-mkfs.ext4 /dev/$gname/home
 
+if [ pswap_enabled ]; then
+  lvcreate -C y -L $pswap_size -n swap $gname
+  mkswap /dev/$gname/swap
+fi
+if [ phome_enabled ]; then
+  lvcreate -C n -L $proot_size -n home $gname
+  mkfs.ext4 /dev/$gname/home
+fi
+
+lvcreate -C n -l 100%FREE -n root $gname
+mkfs.ext4 /dev/$gname/root
 mount /dev/$gname/root /mnt
-mkdir /mnt/home
 mkdir /mnt/boot
 mkdir /mnt/efi
-mount /dev/$gname/home /mnt/home
 mount $pboot /mnt/boot
 mount $pefi /mnt/efi
 
-fonts="ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore"
-midia="mesa wayland pipewire pipewire-alsa pipewire-pulse pipewire-jack gstreamer gstreamer-vaapi gst-plugin-pipewire ffmpeg libva-mesa-driver"
-printer="avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds foomatic-db-gutenprint-ppds"
-bluetooth="bluez bluez-utils"
-cpu="amd-ucode power-profiles-daemon"
-base="base base-devel linux linux-headers linux-firmware grub efibootmgr dbus lvm2 cryptsetup networkmanager git nano"
+if [ pswap_enabled ]; then
+  swapon /dev/$gname/swap
+fi
+if [ phome_enabled ]; then
+  mkdir /mnt/home
+  mount /dev/$gname/home /mnt/home
+fi
 
-pacstrap /mnt $fonts $midia $printer $bluetooth $cpu $base;
+pacstrap /mnt base base-devel linux linux-headers linux-firmware grub \
+  efibootmgr lvm2 cryptsetup amd-ucode intel-ucode git nano
 
 genfstab -U /mnt > /mnt/etc/fstab
