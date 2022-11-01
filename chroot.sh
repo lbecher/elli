@@ -7,9 +7,9 @@ pluks="/dev/nvme0n1p3"
 pluks_uuid=$( blkid -o value -s UUID ${pluks} )
 pluks_name="luks-$pluks_uuid"
 
-grub_p1=$( cat /root/elli/conf/grub_p1.conf )
-grub_p2=$( cat /root/elli/conf/grub_p2.conf )
-mkicpio=$( cat /root/elli/conf/mkinitcpio.conf )
+grub_p1=$( cat conf/grub_p1.conf )
+grub_p2=$( cat conf/grub_p2.conf )
+mkicpio=$( cat conf/mkinitcpio.conf )
 
 echo "LANG=pt_BR.UTF-8" > /etc/locale.conf
 echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
@@ -20,9 +20,7 @@ locale-gen
 
 echo "$hname" > /etc/hostname
 echo -e "127.0.0.1 localhost.localdomain localhost\n::1 localhost.localdomain localhost\n127.0.1.1 $hname.localdomain $hname" > /etc/hosts
-
 echo "$pluks_name UUID=$pluks_uuid none discard" > /etc/crypttab
-
 echo "${mkicpio}" > /etc/mkinitcpio.conf
 mkinitcpio -P
 
@@ -33,7 +31,16 @@ echo "GRUB_CMDLINE_LINUX=\"rd.luks.uuid=$pluks_name rhgb quiet\"" >> /etc/defaul
 echo "${grub_p2}" >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
-pacman -Syu plasma-meta konsole kwrite dolphin ark sddm sddm-kcm plasma-wayland-session egl-wayland kde-gtk-config kdeconnect firefox
+pacman -Syu ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts \ 
+  ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto \
+  tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore
+
+pacman -Syu mesa wayland plasma-meta konsole kwrite dolphin ark sddm sddm-kcm \
+  plasma-wayland-session egl-wayland pipewire pipewire-alsa pipewire-pulse \
+  pipewire-jack bluez bluez-utils kde-gtk-config kdeconnect firefox \
+  avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
+  foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
+  foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager
 
 systemctl enable sddm
 systemctl enable bluetooth
