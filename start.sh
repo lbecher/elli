@@ -27,11 +27,11 @@ vgcreate $gname $plvm
 mkfs.vfat -F32 $pefi
 mkfs.ext4 $pboot
 
-if [ pswap_enabled ]; then
+if [ "$pswap_enabled" = "true" ]; then
   lvcreate -C y -L $pswap_size -n swap $gname
   mkswap /dev/$gname/swap
 fi
-if [ phome_enabled ]; then
+if [ "$phome_enabled" = "true" ]; then
   lvcreate -C n -L $proot_size -n home $gname
   mkfs.ext4 /dev/$gname/home
 fi
@@ -44,10 +44,10 @@ mkdir /mnt/efi
 mount $pboot /mnt/boot
 mount $pefi /mnt/efi
 
-if [ pswap_enabled ]; then
+if [ "$pswap_enabled" = "true" ]; then
   swapon /dev/$gname/swap
 fi
-if [ phome_enabled ]; then
+if [ "$phome_enabled" = "true" ]; then
   mkdir /mnt/home
   mount /dev/$gname/home /mnt/home
 fi
