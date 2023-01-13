@@ -63,6 +63,7 @@ systemctl enable bluetooth
 kde
 
 pacman -Syu gnome gdm gnome-console bluez bluez-utils packagekit gnome-software-packagekit-plugin
+pipewire-media-session -d alsa-acp -e alsa-pcm
 systemctl enable gdm
 systemctl enable bluetooth
 
