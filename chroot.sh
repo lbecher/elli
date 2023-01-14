@@ -54,17 +54,16 @@ pacman -Syu avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engin
   foomatic-db-gutenprint-ppds
 systemctl enable cups.socket
 
-<<kde
 pacman -Syu egl-wayland plasma-meta konsole kwrite dolphin ark sddm \
   sddm-kcm plasma-wayland-session pipewire pipewire-alsa pipewire-pulse \
-  pipewire-jack kde-gtk-config kdeconnect bluez bluez-utils \
+  pipewire-jack kde-gtk-config kdeconnect \
 systemctl enable sddm
-systemctl enable bluetooth
-kde
 
-pacman -Syu gnome gdm gnome-console bluez bluez-utils packagekit gnome-software-packagekit-plugin
-pipewire-media-session -d alsa-acp -e alsa-pcm
+<<gnome
+pacman -Syu gnome gdm gnome-console \
+  packagekit gnome-software-packagekit-plugin
 systemctl enable gdm
-systemctl enable bluetooth
+gnome
 
-pacman -Syu firefox vlc ffmpeg gnome-keyring
+pacman -Syu firefox vlc ffmpeg gnome-keyring bluez bluez-utils
+systemctl enable bluetooth
