@@ -46,17 +46,19 @@ pacman -Syu ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts 
   ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto \
   tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore
 
-pacman -Syu power-profiles-daemon networkmanager
+pacman -Syu power-profiles-daemon networkmanager bluez bluez-utils
 systemctl enable NetworkManager
+systemctl enable bluetooth
 
 pacman -Syu avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
   foomatic-db-gutenprint-ppds
 systemctl enable cups.socket
 
-pacman -Syu egl-wayland plasma-meta konsole kwrite dolphin ark sddm \
-  sddm-kcm plasma-wayland-session pipewire pipewire-alsa pipewire-pulse \
-  pipewire-jack kde-gtk-config kdeconnect \
+pacman -Syu plasma-wayland-session plasma-meta egl-wayland \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
+  sddm sddm-kcm kde-gtk-config print-manager kdeconnect \
+  konsole dolphin ark kcalc spectacle gwenview okular
 systemctl enable sddm
 
 <<gnome
@@ -65,5 +67,4 @@ pacman -Syu gnome gdm gnome-console \
 systemctl enable gdm
 gnome
 
-pacman -Syu firefox vlc ffmpeg gnome-keyring bluez bluez-utils
-systemctl enable bluetooth
+pacman -Syu vlc firefox libreoffice-still-pt-br flatpak ffmpeg gnome-keyring
