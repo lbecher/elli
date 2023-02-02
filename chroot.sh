@@ -1,7 +1,7 @@
 #!/bin/bash
 
 gname="archlvm"
-hname="arch-linux"
+hname="arch"
 
 username="user"
 
@@ -55,16 +55,21 @@ pacman -Syu avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engin
   foomatic-db-gutenprint-ppds
 systemctl enable cups.socket
 
+<<plasmade
 pacman -Syu plasma-wayland-session plasma-meta egl-wayland \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack \
   sddm sddm-kcm kde-gtk-config print-manager kdeconnect \
   konsole dolphin ark kcalc spectacle gwenview okular
 systemctl enable sddm
+plasmade
 
-<<gnome
+<<gnomede
 pacman -Syu gnome gdm gnome-console \
   packagekit gnome-software-packagekit-plugin
 systemctl enable gdm
-gnome
+gnomede
+
+pacman -Syu mesa sddm lxqt breeze-icons
+systemctl enable sddm
 
 pacman -Syu vlc firefox libreoffice-still-pt-br flatpak ffmpeg gnome-keyring
