@@ -42,6 +42,6 @@ mount $pefi /mnt/efi
 
 swapon /dev/$gname/swap
 
-pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr lvm2 cryptsetup amd-ucode git nano fuse
+pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr lvm2 cryptsetup intel-ucode amd-ucode git nano fuse
 
 genfstab -U /mnt > /mnt/etc/fstab
