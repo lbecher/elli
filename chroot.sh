@@ -63,13 +63,13 @@ pacman -Syu plasma-wayland-session plasma-meta egl-wayland \
 systemctl enable sddm
 plasmade
 
-<<gnomede
-pacman -Syu gnome gdm gnome-console \
+pacman -Syu gdm gnome gnome-console \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
   packagekit gnome-software-packagekit-plugin
 systemctl enable gdm
-gnomede
 
-pacman -Syu mesa sddm lxqt breeze-icons
-systemctl enable sddm
+#pacman -Syu vulkan-intel lib32-vulkan-intel lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader wine lutris
+#pacman -Syu vulkan-radeon lib32-vulkan-radeon lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader wine lutris
+#pacman -Syu nvidia nvidia-settings nvidia-utils lib32-nvidia-utils vulkan-icd-loader lib32-vulkan-icd-loader wine lutris
 
 pacman -Syu vlc firefox libreoffice-still-pt-br flatpak ffmpeg gnome-keyring
