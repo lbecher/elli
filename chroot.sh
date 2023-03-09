@@ -44,7 +44,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 pacman -Syu ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts \
   ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto \
-  tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore
+  tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore \
+  ttf-fira-code
 
 pacman -Syu power-profiles-daemon networkmanager bluez bluez-utils
 systemctl enable NetworkManager
@@ -66,6 +67,7 @@ plasmade
 pacman -Syu gdm gnome gnome-console \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack \
   packagekit gnome-software-packagekit-plugin
+ln -s /dev/null /etc/udev/rules.d/61-gdm.rules
 systemctl enable gdm
 
 #pacman -Syu vulkan-intel lib32-vulkan-intel lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader wine lutris
