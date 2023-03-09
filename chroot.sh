@@ -43,9 +43,9 @@ echo "${grub_p2}" >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 pacman -Syu ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts \
-  ttf-ibm-plex ttf-liberation ttf-linux-libertine noto-fonts ttf-roboto \
+  ttf-ibm-plex ttf-liberation ttf-linux-libertine ttf-roboto ttf-fira-code \
   tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore \
-  ttf-fira-code
+  noto-fonts noto-fonts-emoji noto-fonts-extra awesome-terminal-fonts
 
 pacman -Syu power-profiles-daemon networkmanager bluez bluez-utils
 systemctl enable NetworkManager
