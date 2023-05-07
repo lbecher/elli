@@ -54,7 +54,9 @@ systemctl enable bluetooth
 pacman -Syu avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
   foomatic-db-gutenprint-ppds
-systemctl enable cups.socket
+systemctl enable cups.sock
+
+sudo pacman -Syu gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb
 
 <<plasmade
 pacman -Syu plasma-wayland-session plasma-meta egl-wayland \
