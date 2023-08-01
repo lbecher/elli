@@ -2,7 +2,7 @@
 
 # Configure
 
-gname="archlvm"
+gname="archlvm" # volume group name
 
 pefi="/dev/nvme0n1p1"
 pboot="/dev/nvme0n1p2"
