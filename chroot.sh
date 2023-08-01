@@ -1,11 +1,15 @@
 #!/bin/bash
 
-gname="archlvm"
-hname="arch"
+# Configure
 
-username="user"
+gname="archlvm" # volume group name
+hname="arch" # hostname
+uname="user" # username
 
-pluks="/dev/nvme0n1p3"
+pluks="/dev/nvme0n1p3" # luks partition
+
+# Install
+
 pluks_uuid=$( blkid -o value -s UUID ${pluks} )
 pluks_name="luks-$pluks_uuid"
 
@@ -25,8 +29,8 @@ locale-gen
 
 nano /etc/pacman.conf
 
-useradd -m -G wheel $username
-passwd $username
+useradd -m -G wheel $uname
+passwd $uname
 EDITOR=nano visudo
 
 echo "$hname" > /etc/hostname
@@ -45,37 +49,37 @@ grub-mkconfig -o /boot/grub/grub.cfg
 pacman -Syu ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts \
   ttf-ibm-plex ttf-liberation ttf-linux-libertine ttf-roboto ttf-fira-code \
   tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts ttf-opensans ttf-croscore \
-  noto-fonts noto-fonts-emoji noto-fonts-extra awesome-terminal-fonts
-
-pacman -Syu power-profiles-daemon networkmanager bluez bluez-utils
-systemctl enable NetworkManager
-systemctl enable bluetooth
-
-pacman -Syu avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
+  noto-fonts noto-fonts-emoji noto-fonts-extra awesome-terminal-fonts \
+  avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
-  foomatic-db-gutenprint-ppds
+  foomatic-db-gutenprint-ppds ufw power-profiles-daemon networkmanager bluez bluez-utils
+
+systemctl enable NetworkManager
+systemctl enable ufw
+systemctl enable bluetooth
 systemctl enable cups.socket
+
+pacman -Syu vulkan-intel lib32-vulkan-intel lib32-mesa
+pacman -Syu vulkan-radeon lib32-vulkan-radeon lib32-mesa
+pacman -Syu nvidia nvidia-settings nvidia-utils lib32-nvidia-utils egl-wayland
+pacman -Syu nvidia-prime switcheroo-control
+systemctl enable switcheroo-control
+pacman -Syu vulkan-icd-loader lib32-vulkan-icd-loader
 
 <<plasmade
 pacman -Syu plasma-wayland-session plasma-meta egl-wayland \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack \
   sddm sddm-kcm kde-gtk-config print-manager kdeconnect \
-  konsole dolphin ark kcalc spectacle gwenview okular kate
+  konsole dolphin ark kcalc spectacle gwenview okular kate \
+  gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
+  vlc firefox libreoffice-still-pt-br flatpak ffmpeg gnome-keyring
 systemctl enable sddm
 plasmade
 
 pacman -Syu gdm gnome gnome-console \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-  packagekit gnome-packagekit archlinux-appstream-data
+  packagekit gnome-packagekit archlinux-appstream-data \
+  gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
+  vlc firefox libreoffice-still-pt-br flatpak ffmpeg gnome-keyring
 ln -s /dev/null /etc/udev/rules.d/61-gdm.rules
 systemctl enable gdm
-
-sudo pacman -Syu gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb
-
-pacman -Syu vulkan-intel lib32-vulkan-intel lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader wine lutris
-#pacman -Syu vulkan-radeon lib32-vulkan-radeon lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader wine lutris
-pacman -Syu nvidia nvidia-settings nvidia-utils lib32-nvidia-utils vulkan-icd-loader lib32-vulkan-icd-loader wine lutris
-pacman -Syu nvidia-prime switcheroo-control
-systemctl enable switcheroo-control
-
-pacman -Syu vlc firefox libreoffice-still-pt-br flatpak ffmpeg gnome-keyring
