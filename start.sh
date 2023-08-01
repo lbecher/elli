@@ -9,7 +9,10 @@ pboot="/dev/nvme0n1p2"
 pluks="/dev/nvme0n1p3"
 
 use_swap="y"
-use_home="y"
+use_home="y" # dedicated home volume
+
+swap_size="16GB" # if you will use swap
+root_size="64GB" # if you will use dedicated home volume
 
 # Install
 
@@ -34,13 +37,13 @@ mkfs.vfat -F32 "$pefi"
 mkfs.xfs "$pboot"
 
 if [ "$use_swap" = "y" ]; then
-  lvcreate -C y -L 16GB -n swap $gname
+  lvcreate -C y -L "$swap_size" -n swap $gname
   mkswap /dev/$gname/swap
   swapon /dev/$gname/swap
 fi
 
 if [ "$use_home" = "y" ]; then
-  lvcreate -C n -L 64GB -n root "$gname"
+  lvcreate -C n -L "$root_size" -n root "$gname"
   lvcreate -C n -l 100%FREE -n home "$gname"
   
   mkfs.xfs "/dev/$gname/root"
