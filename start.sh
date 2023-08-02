@@ -34,7 +34,7 @@ pvcreate "$plvm"
 vgcreate "$gname" "$plvm"
 
 mkfs.vfat -F32 "$pefi"
-mkfs.xfs "$pboot"
+mkfs.ext4 "$pboot"
 
 if [ "$use_swap" = "y" ]; then
   lvcreate -C y -L "$swap_size" -n swap $gname
