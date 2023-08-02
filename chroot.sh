@@ -29,8 +29,8 @@ locale-gen
 
 nano /etc/pacman.conf
 
-useradd -m -G wheel $uname
-passwd $uname
+useradd -m -G wheel "$uname"
+passwd "$uname"
 EDITOR=nano visudo
 
 echo "$hname" > /etc/hostname
@@ -52,10 +52,11 @@ pacman -Syu ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts 
   noto-fonts noto-fonts-emoji noto-fonts-extra awesome-terminal-fonts \
   avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
-  foomatic-db-gutenprint-ppds ufw power-profiles-daemon networkmanager bluez bluez-utils
+  foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager bluez bluez-utils \
+  firewalld
 
 systemctl enable NetworkManager
-systemctl enable ufw
+systemctl enable firewalld
 systemctl enable bluetooth
 systemctl enable cups.socket
 
