@@ -81,6 +81,7 @@ pacman -Syu gdm gnome gnome-console \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack \
   packagekit gnome-packagekit archlinux-appstream-data \
   gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
-  vlc firefox libreoffice-still-pt-br flatpak ffmpeg gnome-keyring
+  vlc firefox libreoffice-still-pt-br flatpak ffmpeg gnome-keyring \
+  foliate
 ln -s /dev/null /etc/udev/rules.d/61-gdm.rules
 systemctl enable gdm
