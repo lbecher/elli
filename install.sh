@@ -92,7 +92,7 @@ pacstrap /mnt base base-devel linux linux-headers linux-firmware \
   ttf-fira-code ttf-croscore ttf-opensans gnu-free-fonts \
   avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
-  foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager ffmpeg \
+  foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager \
   bluez bluez-utils networkmanager firewalld git curl nano fuse rustup
   
 if [ "$use_intel_gpu" = "y" ]; then
@@ -159,7 +159,7 @@ arch-chroot /mnt passwd "$uname"
 
 arch-chroot /mnt pacman -Syu \
   plasma-meta plasma-wayland-session egl-wayland xdg-desktop-portal \
-  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack ffmpeg \
   sddm sddm-kcm kde-gtk-config print-manager kdeconnect \
   konsole dolphin ark kcalc spectacle gwenview okular kate gvfs sshfs \
   gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
