@@ -8,6 +8,10 @@ gname="archlinux" # nome do grupo de volume
 hname="archlinux" # nome do host
 uname="user" # nome de usuário
 
+use_intel_gpu="n"
+use_amd_gpu="y"
+use_nvidia_gpu="n"
+
 pefi="/dev/nvme0n1p1"
 pboot="/dev/nvme0n1p2"
 pluks="/dev/nvme0n1p3"
@@ -88,17 +92,26 @@ pacstrap /mnt base base-devel linux linux-headers linux-firmware \
   ttf-fira-code ttf-croscore ttf-opensans gnu-free-fonts \
   avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
-  foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager \
-  bluez bluez-utils networkmanager firewalld git curl nano fuse \
-  mesa lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader \
-  vulkan-intel lib32-vulkan-intel vulkan-radeon lib32-vulkan-radeon \
-  plasma-meta plasma-wayland-session egl-wayland xdg-desktop-portal \
-  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-  sddm sddm-kcm kde-gtk-config print-manager kdeconnect \
-  konsole dolphin ark kcalc spectacle gwenview okular kate gvfs sshfs \
-  gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
-  vlc firefox libreoffice-still-pt-br ffmpeg gnome-keyring foliate \
-  qbittorrent rustup
+  foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager ffmpeg \
+  bluez bluez-utils networkmanager firewalld git curl nano fuse rustup
+  
+if [ "$use_intel_gpu" = "y" ]; then
+  arch-chroot /mnt pacman -Syu \
+    mesa lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader \
+    vulkan-intel lib32-vulkan-intel
+fi
+
+if [ "$use_amd_gpu" = "y" ]; then
+  arch-chroot /mnt pacman -Syu \
+    mesa lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader \
+    vulkan-radeon lib32-vulkan-radeon
+fi
+
+if [ "$use_nvidia_gpu" = "y" ]; then
+  arch-chroot /mnt pacman -Syu \
+    vulkan-icd-loader lib32-vulkan-icd-loader \
+    nvidia nvidia-settings nvidia-utils lib32-nvidia-utils
+fi
 
 genfstab -U /mnt > /mnt/etc/fstab
 echo "$plvm_name UUID=$pluks_uuid none discard" > /mnt/etc/crypttab
@@ -143,6 +156,14 @@ arch-chroot /mnt locale-gen
 arch-chroot /mnt useradd -m -G wheel "$uname"
 echo "Defina uma senha para o usuário criado."
 arch-chroot /mnt passwd "$uname"
+
+arch-chroot /mnt pacman -Syu \
+  plasma-meta plasma-wayland-session egl-wayland xdg-desktop-portal \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
+  sddm sddm-kcm kde-gtk-config print-manager kdeconnect \
+  konsole dolphin ark kcalc spectacle gwenview okular kate gvfs sshfs \
+  gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
+  vlc firefox libreoffice-still-pt-br gnome-keyring foliate qbittorrent 
 
 arch-chroot /mnt systemctl enable NetworkManager
 arch-chroot /mnt systemctl enable firewalld
