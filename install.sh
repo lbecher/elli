@@ -131,13 +131,14 @@ echo "GRUB_ENABLE_BLSCFG=true" >> /mnt/etc/default/grub
 sed -e 's/^#[[:space:]]*ParallelDownloads =.*/ParallelDownloads = 5/' -i /mnt/etc/pacman.conf
 sed -e '/^#[[:space:]]*\[multilib\]/,/^#[[:space:]]*Include/s/^#[[:space:]]*//' -i /mnt/etc/pacman.conf
 sed -e '/^#[[:space:]]*%wheel ALL=(ALL:ALL) ALL/s/^#[[:space:]]*//' -i /mnt/etc/sudoers
-sed -e '/^#[[:space:]]*en_US.UTF-8 UTF-8/,/^#[[:space:]]*pt_BR.UTF-8 UTF-8/s/^#[[:space:]]*//' -i /mnt/etc/locale.gen
+sed -e '/^#[[:space:]]*en_US.UTF-8[[:space:]]UTF-8/,/^#[[:space:]]*pt_BR.UTF-8[[:space:]]UTF-8/s/^#[[:space:]]*//' -i /mnt/etc/locale.gen
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 arch-chroot /mnt hwclock --systohc
 arch-chroot /mnt locale-gen
 
 arch-chroot /mnt useradd -m -G wheel "$uname"
+echo "Defina uma senha para o usuário criado."
 arch-chroot /mnt passwd "$uname"
 
 arch-chroot /mnt systemctl enable NetworkManager
