@@ -4,7 +4,9 @@
 # Parâmetros
 #
 
-gname="archlvm" # nome do grupo de volume
+gname="archlinux" # nome do grupo de volume
+hname="archlinux" # nome do host
+uname="user" # nome de usuário
 
 pefi="/dev/nvme0n1p1"
 pboot="/dev/nvme0n1p2"
@@ -58,7 +60,6 @@ if [ "$use_home" = "y" ]; then
   mount "/dev/$gname/root" "/mnt"
   
   mkdir "/mnt/home"
-  
   mount "/dev/$gname/home" "/mnt/home"
 else
   lvcreate -C n -l 100%FREE -n root "$gname"
@@ -77,7 +78,24 @@ mount "$pboot" "/mnt/boot"
 
 pacstrap /mnt base base-devel linux linux-headers linux-firmware \
   intel-ucode amd-ucode grub efibootmgr lvm2 cryptsetup xfsprogs \
-  networkmanager git curl nano fuse
+  ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid \
+  ttf-ibm-plex ttf-liberation ttf-linux-libertine ttf-roboto \
+  tex-gyre-fonts ttf-ubuntu-font-family cantarell-fonts \
+  noto-fonts noto-fonts-emoji noto-fonts-extra awesome-terminal-fonts \
+  ttf-fira-code ttf-croscore ttf-opensans gnu-free-fonts \
+  avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
+  foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
+  foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager \
+  bluez bluez-utils networkmanager firewalld git curl nano fuse \
+  mesa lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader \
+  vulkan-intel lib32-vulkan-intel vulkan-radeon lib32-vulkan-radeon \
+  plasma-meta plasma-wayland-session egl-wayland xdg-desktop-portal \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
+  sddm sddm-kcm kde-gtk-config print-manager kdeconnect \
+  konsole dolphin ark kcalc spectacle gwenview okular kate gvfs sshfs \
+  gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
+  vlc firefox libreoffice-still-pt-br ffmpeg gnome-keyring foliate \
+  qbittorrent rustup
 
 genfstab -U /mnt > /mnt/etc/fstab
 echo "$pluks_name UUID=$pluks_uuid none discard" > /mnt/etc/crypttab
@@ -114,9 +132,22 @@ sed -e '/^#[[:space:]]*\[multilib\]/,/^#[[:space:]]*Include/s/^#[[:space:]]*//' 
 sed -e '/^#[[:space:]]*%wheel ALL=(ALL:ALL) ALL/s/^#[[:space:]]*//' -i /mnt/etc/sudoers
 sed -e '/^#[[:space:]]*en_US.UTF-8 UTF-8/,/^#[[:space:]]*pt_BR.UTF-8 UTF-8/s/^#[[:space:]]*//' -i /mnt/etc/locale.gen
 
-ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-hwclock --systohc
-locale-gen
-mkinitcpio -P
-useradd -m -G wheel "$uname"
-passwd "$uname"
+arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+arch-chroot /mnt hwclock --systohc
+arch-chroot /mnt locale-gen
+
+arch-chroot /mnt useradd -m -G wheel "$uname"
+arch-chroot /mnt passwd "$uname"
+
+arch-chroot /mnt systemctl enable NetworkManager
+arch-chroot /mnt systemctl enable firewalld
+arch-chroot /mnt systemctl enable bluetooth
+arch-chroot /mnt systemctl enable cups.socket
+arch-chroot /mnt systemctl enable sddm
+
+arch-chroot /mnt firewall-cmd --permanent --add-service=kdeconnect
+
+arch-chroot /mnt mkinitcpio -P
+
+arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=ArchLinux
+arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
