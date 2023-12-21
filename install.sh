@@ -22,6 +22,8 @@ root_size="64GB" # afeta somente se você usar volume dedicado para home
 # Configuração
 #
 
+loadkeys br-abnt2
+
 echo "Server = http://archlinux.c3sl.ufpr.br/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 echo "Server = http://mirror.ufam.edu.br/archlinux/\$repo/os/\$arch" >> /etc/pacman.d/mirrorlist
 echo "Server = http://mirror.ufscar.br/archlinux/\$repo/os/\$arch" >> /etc/pacman.d/mirrorlist
@@ -99,7 +101,7 @@ pacstrap /mnt base base-devel linux linux-headers linux-firmware \
   qbittorrent rustup
 
 genfstab -U /mnt > /mnt/etc/fstab
-echo "$pluks_name UUID=$pluks_uuid none discard" > /mnt/etc/crypttab
+echo "$plvm_name UUID=$pluks_uuid none discard" > /mnt/etc/crypttab
 
 echo "$hname" > /mnt/etc/hostname
 echo "LANG=pt_BR.UTF-8" > /mnt/etc/locale.conf
@@ -126,7 +128,7 @@ echo "GRUB_DISTRIBUTOR=\"ArchLinux\"" >> /mnt/etc/default/grub
 echo "GRUB_DEFAULT=\"saved\"" >> /mnt/etc/default/grub
 echo "GRUB_DISABLE_SUBMENU=true" >> /mnt/etc/default/grub
 echo "GRUB_TERMINAL_OUTPUT=\"console\"" >> /mnt/etc/default/grub
-echo "GRUB_CMDLINE_LINUX=\"rd.luks.uuid=$pluks_name rhgb quiet\"" >> /mnt/etc/default/grub
+echo "GRUB_CMDLINE_LINUX=\"rd.luks.uuid=$plvm_name rhgb quiet\"" >> /mnt/etc/default/grub
 echo "GRUB_DISABLE_RECOVERY=true" >> /mnt/etc/default/grub
 echo "GRUB_ENABLE_BLSCFG=true" >> /mnt/etc/default/grub
 
