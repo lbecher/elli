@@ -20,11 +20,12 @@ root_size="64GB" # afeta somente se você usar volume dedicado para home
 # Configuração
 #
 
-mirrorlist=$( cat conf/mirrorlist )
+echo "Server = http://archlinux.c3sl.ufpr.br/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+echo "Server = http://mirror.ufam.edu.br/archlinux/\$repo/os/\$arch" >> /etc/pacman.d/mirrorlist
+echo "Server = http://mirror.ufscar.br/archlinux/\$repo/os/\$arch" >> /etc/pacman.d/mirrorlist
+echo "Server = http://www.caco.ic.unicamp.br/archlinux/\$repo/os/\$arch" >> /etc/pacman.d/mirrorlist
 
-echo "${mirrorlist}" > /etc/pacman.d/mirrorlist
-
-nano /etc/pacman.conf
+sed -e 's/^#[[:space:]]*ParallelDownloads.*/ParallelDownloads = 5/' -i /etc/pacman.conf
 
 #
 # Instalação
