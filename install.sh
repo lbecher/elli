@@ -104,6 +104,8 @@ echo "$pluks_name UUID=$pluks_uuid none discard" > /mnt/etc/crypttab
 echo "$hname" > /mnt/etc/hostname
 echo "LANG=pt_BR.UTF-8" > /mnt/etc/locale.conf
 echo "KEYMAP=br-abnt2" > /mnt/etc/vconsole.conf
+echo "en_US.UTF-8 UTF-8" > /mnt/etc/locale.gen
+echo "pt_BR.UTF-8 UTF-8" >> /mnt/etc/locale.gen
 
 echo "127.0.0.1 localhost.localdomain localhost" > /mnt/etc/hosts
 echo "::1 localhost.localdomain localhost" >> /mnt/etc/hosts
@@ -131,7 +133,6 @@ echo "GRUB_ENABLE_BLSCFG=true" >> /mnt/etc/default/grub
 sed -e 's/^#[[:space:]]*ParallelDownloads =.*/ParallelDownloads = 5/' -i /mnt/etc/pacman.conf
 sed -e '/^#[[:space:]]*\[multilib\]/,/^#[[:space:]]*Include/s/^#[[:space:]]*//' -i /mnt/etc/pacman.conf
 sed -e '/^#[[:space:]]*%wheel ALL=(ALL:ALL) ALL/s/^#[[:space:]]*//' -i /mnt/etc/sudoers
-sed -e '/^#[[:space:]]*en_US.UTF-8[[:space:]]UTF-8/,/^#[[:space:]]*pt_BR.UTF-8[[:space:]]UTF-8/s/^#[[:space:]]*//' -i /mnt/etc/locale.gen
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 arch-chroot /mnt hwclock --systohc
