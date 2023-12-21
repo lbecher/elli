@@ -94,6 +94,14 @@ pacstrap /mnt base base-devel linux linux-headers linux-firmware \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
   foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager \
   bluez bluez-utils networkmanager firewalld git curl nano fuse rustup
+
+echo "Server = http://archlinux.c3sl.ufpr.br/\$repo/os/\$arch" > /mnt/etc/pacman.d/mirrorlist
+echo "Server = http://mirror.ufam.edu.br/archlinux/\$repo/os/\$arch" >> /mnt/etc/pacman.d/mirrorlist
+echo "Server = http://mirror.ufscar.br/archlinux/\$repo/os/\$arch" >> /mnt/etc/pacman.d/mirrorlist
+echo "Server = http://www.caco.ic.unicamp.br/archlinux/\$repo/os/\$arch" >> /mnt/etc/pacman.d/mirrorlist
+
+sed -e 's/^#[[:space:]]*ParallelDownloads =.*/ParallelDownloads = 5/' -i /mnt/etc/pacman.conf
+sed -e '/^#[[:space:]]*\[multilib\]/,/^#[[:space:]]*Include/s/^#[[:space:]]*//' -i /mnt/etc/pacman.conf
   
 if [ "$use_intel_gpu" = "y" ]; then
   arch-chroot /mnt pacman -Syu \
@@ -126,11 +134,6 @@ echo "127.0.0.1 localhost.localdomain localhost" > /mnt/etc/hosts
 echo "::1 localhost.localdomain localhost" >> /mnt/etc/hosts
 echo "127.0.1.1 $hname.localdomain $hname" >> /mnt/etc/hosts
 
-echo "Server = http://archlinux.c3sl.ufpr.br/\$repo/os/\$arch" > /mnt/etc/pacman.d/mirrorlist
-echo "Server = http://mirror.ufam.edu.br/archlinux/\$repo/os/\$arch" >> /mnt/etc/pacman.d/mirrorlist
-echo "Server = http://mirror.ufscar.br/archlinux/\$repo/os/\$arch" >> /mnt/etc/pacman.d/mirrorlist
-echo "Server = http://www.caco.ic.unicamp.br/archlinux/\$repo/os/\$arch" >> /mnt/etc/pacman.d/mirrorlist
-
 echo "MODULES=()" > /mnt/etc/mkinitcpio.conf
 echo "BINARIES=()" >> /mnt/etc/mkinitcpio.conf
 echo "FILES=()" >> /mnt/etc/mkinitcpio.conf
@@ -145,13 +148,11 @@ echo "GRUB_CMDLINE_LINUX=\"rd.luks.uuid=$plvm_name rhgb quiet\"" >> /mnt/etc/def
 echo "GRUB_DISABLE_RECOVERY=true" >> /mnt/etc/default/grub
 echo "GRUB_ENABLE_BLSCFG=true" >> /mnt/etc/default/grub
 
-sed -e 's/^#[[:space:]]*ParallelDownloads =.*/ParallelDownloads = 5/' -i /mnt/etc/pacman.conf
-sed -e '/^#[[:space:]]*\[multilib\]/,/^#[[:space:]]*Include/s/^#[[:space:]]*//' -i /mnt/etc/pacman.conf
-sed -e '/^#[[:space:]]*%wheel ALL=(ALL:ALL) ALL/s/^#[[:space:]]*//' -i /mnt/etc/sudoers
-
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 arch-chroot /mnt hwclock --systohc
 arch-chroot /mnt locale-gen
+
+sed -e '/^#[[:space:]]*%wheel ALL=(ALL:ALL) ALL/s/^#[[:space:]]*//' -i /mnt/etc/sudoers
 
 arch-chroot /mnt useradd -m -G wheel "$uname"
 echo "Defina uma senha para o usuário criado."
