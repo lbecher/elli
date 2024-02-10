@@ -93,7 +93,8 @@ pacstrap /mnt base base-devel linux linux-headers linux-firmware \
   avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
   foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager \
-  bluez bluez-utils networkmanager firewalld git curl nano fuse rustup
+  bluez bluez-utils networkmanager firewalld git curl nano fuse rustup \
+  dosfstools exfat-utils ntfs-3g
 
 echo "Server = http://archlinux.c3sl.ufpr.br/\$repo/os/\$arch" > /mnt/etc/pacman.d/mirrorlist
 echo "Server = http://mirror.ufam.edu.br/archlinux/\$repo/os/\$arch" >> /mnt/etc/pacman.d/mirrorlist
@@ -161,9 +162,9 @@ arch-chroot /mnt passwd "$uname"
 arch-chroot /mnt pacman -Syu \
   plasma-meta plasma-wayland-session egl-wayland xdg-desktop-portal \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack ffmpeg \
-  sddm sddm-kcm kde-gtk-config print-manager kdeconnect \
-  konsole dolphin ark kcalc spectacle gwenview okular kate gvfs sshfs \
-  gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
+  sddm sddm-kcm kde-gtk-config print-manager kdeconnect partitionmanager \
+  konsole dolphin ark kcalc spectacle gwenview okular kate \
+  gvfs sshfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
   vlc firefox libreoffice-still-pt-br gnome-keyring foliate qbittorrent 
 
 arch-chroot /mnt systemctl enable NetworkManager
@@ -178,3 +179,4 @@ arch-chroot /mnt mkinitcpio -P
 
 arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=ArchLinux
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+arch-chroot /mnt gpasswd -a "$uname" audio
