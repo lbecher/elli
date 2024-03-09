@@ -118,7 +118,7 @@ fi
 
 if [ "$use_nvidia_gpu" = "y" ]; then
   arch-chroot /mnt pacman -Syu \
-    vulkan-icd-loader lib32-vulkan-icd-loader \
+    egl-wayland vulkan-icd-loader lib32-vulkan-icd-loader \
     nvidia nvidia-settings nvidia-utils lib32-nvidia-utils
 fi
 
@@ -160,7 +160,7 @@ echo "Defina uma senha para o usuário criado."
 arch-chroot /mnt passwd "$uname"
 
 arch-chroot /mnt pacman -Syu \
-  plasma-meta plasma-wayland-session egl-wayland xdg-desktop-portal \
+  plasma-meta xdg-desktop-portal \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack ffmpeg \
   sddm sddm-kcm kde-gtk-config print-manager kdeconnect partitionmanager \
   konsole dolphin ark kcalc spectacle gwenview okular kate \
