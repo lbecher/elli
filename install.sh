@@ -12,15 +12,15 @@ use_intel_gpu="n"
 use_amd_gpu="y"
 use_nvidia_gpu="n"
 
-pefi="/dev/nvme0n1p1"
-pboot="/dev/nvme0n1p2"
-pluks="/dev/nvme0n1p3"
+pefi="/dev/nvme0n1p1" # partição EFI
+pboot="/dev/nvme0n1p2" # partição do GRUB
+pluks="/dev/nvme0n1p3" # partição do sistema de arquivos criptografado
 
-use_swap="n" # usar volume dedicado para swap
-use_home="n" # usar volume dedicado para home
+use_swap="n" # usar volume lógico dedicado para swap
+use_home="n" # usar volume lógico dedicado para /home
 
 swap_size="8GB" # afeta somente se você usar volume dedicado para swap
-root_size="64GB" # afeta somente se você usar volume dedicado para home
+root_size="64GB" # afeta somente se você usar volume dedicado para /home
 
 #
 # Configuração
@@ -93,7 +93,7 @@ pacstrap /mnt base base-devel linux linux-headers linux-firmware \
   avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
   foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager \
-  bluez bluez-utils networkmanager firewalld git curl nano fuse rustup \
+  bluez bluez-utils networkmanager firewalld git curl wget nano fuse rustup \
   dosfstools exfat-utils ntfs-3g
 
 echo "Server = http://archlinux.c3sl.ufpr.br/\$repo/os/\$arch" > /mnt/etc/pacman.d/mirrorlist
@@ -160,12 +160,12 @@ echo "Defina uma senha para o usuário criado."
 arch-chroot /mnt passwd "$uname"
 
 arch-chroot /mnt pacman -Syu \
-  plasma-meta xdg-desktop-portal \
-  pipewire pipewire-alsa pipewire-pulse pipewire-jack ffmpeg \
+  plasma-meta xdg-desktop-portal gnome-keyring \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
   sddm sddm-kcm kde-gtk-config print-manager kdeconnect partitionmanager \
-  konsole dolphin ark kcalc spectacle gwenview okular kate \
+  konsole dolphin ark kcalc spectacle gwenview okular \
   gvfs sshfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
-  vlc firefox libreoffice-still-pt-br gnome-keyring foliate qbittorrent 
+  ffmpeg vlc firefox libreoffice-still-pt-br foliate qbittorrent 
 
 arch-chroot /mnt systemctl enable NetworkManager
 arch-chroot /mnt systemctl enable firewalld
