@@ -2,7 +2,9 @@
 
 O ELLI é um script instalador simples de Arch Linux.
 
-# Antes de executar o script
+# Bootando a ISO
+
+Baixe o Arch Linux no [site oficial](https://archlinux.org/download/). Grave ela em um pendrive e realize o boot em modo live.
 
 ## Mudando o layout do teclado para ABNT2
 
@@ -100,7 +102,11 @@ cd elli
 chmod +x install.sh
 ```
 
-Altere os parâmetros no início do arquivo install.sh, utilizando o seu editor de texto preferido.
+Altere os parâmetros no início do arquivo install.sh, utilizando o seu editor de texto preferido. Exemplo:
+
+```
+nano install.sh
+```
 
 # Instalando
 
