@@ -4,17 +4,16 @@
 # Parâmetros
 #
 
-gname="archlinux" # nome do grupo de volume
 hname="archlinux" # nome do host
 uname="user" # nome de usuário
 
 use_plasma="n"
 use_gnome="y"
-use_luks="n"
+use_luks="y"
 
-use_intel_gpu="n"
+use_intel_gpu="y"
 use_amd_gpu="y"
-use_nvidia_gpu="n"
+use_nvidia_gpu="y"
 
 pefi="/dev/nvme0n1p1" # partição EFI
 pboot="/dev/nvme0n1p2" # partição do GRUB
@@ -151,28 +150,28 @@ if [ "$use_nvidia_gpu" = "y" ]; then
     nvidia nvidia-settings nvidia-utils lib32-nvidia-utils
 fi
 
+arch-chroot /mnt pacman -Syu \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
+  sshfs gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb
+
 if [ "$use_plasma" = "y" ]; then
   arch-chroot /mnt pacman -Syu \
-    gnome xdg-desktop-portal xdg-desktop-portal-gnome gnome-keyring \
+    plasma-meta xdg-desktop-portal xdg-desktop-portal-kde \
     sddm sddm-kcm kde-gtk-config print-manager kdeconnect partitionmanager \
-    konsole dolphin ark kcalc spectacle gwenview okular \
-    pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-    sshfs gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb
+    konsole dolphin ark kcalc spectacle gwenview okular
 
   arch-chroot /mnt systemctl enable sddm
 fi
 
 if [ "$use_gnome" = "y" ]; then
   arch-chroot /mnt pacman -Syu \
-    plasma-meta xdg-desktop-portal xdg-desktop-portal-kde gnome-keyring \
-    pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-    gvfs sshfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb
+    gnome xdg-desktop-portal xdg-desktop-portal-gnome
     
   arch-chroot /mnt systemctl enable gdm
 fi
 
 arch-chroot /mnt pacman -Syu \
-  ffmpeg vlc firefox libreoffice-still-pt-br foliate qbittorrent 
+  gnome-keyring ffmpeg vlc firefox libreoffice-still-pt-br foliate qbittorrent \
 
 arch-chroot /mnt systemctl enable NetworkManager
 arch-chroot /mnt systemctl enable firewalld
