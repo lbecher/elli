@@ -77,6 +77,8 @@ pacstrap /mnt base base-devel linux linux-headers linux-firmware \
   avahi cups cups-pdf libcups ghostscript gutenprint foomatic-db-engine \
   foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds \
   foomatic-db-gutenprint-ppds power-profiles-daemon networkmanager \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
+  sshfs gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
   bluez bluez-utils networkmanager firewalld git curl wget nano fuse rustup \
   dosfstools exfat-utils ntfs-3g os-prober
 
@@ -149,10 +151,6 @@ if [ "$use_nvidia_gpu" = "y" ]; then
     egl-wayland vulkan-icd-loader lib32-vulkan-icd-loader \
     nvidia nvidia-settings nvidia-utils lib32-nvidia-utils
 fi
-
-arch-chroot /mnt pacman -Syu \
-  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-  sshfs gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb
 
 if [ "$use_plasma" = "y" ]; then
   arch-chroot /mnt pacman -Syu \
