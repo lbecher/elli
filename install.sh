@@ -50,17 +50,10 @@ if [ "$use_luks" = "y" ]; then
 fi
 
 mkfs.vfat -n EFI -F32 "$pefi"
-mkfs.ext4 -L GRUB "$pboot" 
-mkfs.btrfs -L ROOT "$proot"
+mkfs.ext4 -L GRUB "$pboot"
+mkfs.ext4 -L ROOT "$proot"
 
 mount "$proot" /mnt
-btrfs subvolume create /mnt/@
-btrfs subvolume create /mnt/@home
-umount /mnt
-
-mount -o compress=zstd,subvol=@ "$proot" /mnt
-mkdir -p /mnt/home
-mount -o compress=zstd,subvol=@home "$proot" /mnt/home
 
 mkdir "/mnt/efi"
 mkdir "/mnt/boot"
